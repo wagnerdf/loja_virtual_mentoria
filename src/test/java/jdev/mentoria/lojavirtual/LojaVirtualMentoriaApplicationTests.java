@@ -12,11 +12,7 @@ import jdev.mentoria.lojavirtual.service.AcessoService;
 @SpringBootTest(classes = LojaVirtualMentoriaApplication.class)
 class LojaVirtualMentoriaApplicationTests {
 	
-	@Autowired
-	private AcessoService acessoService;
-	
-	//@Autowired
-	//private AcessoRepository acessoRepository;
+
 	
 	@Autowired
 	private AcessoController acessoController;
