@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jdev.mentoria.lojavirtual.model.Acesso;
+import jdev.mentoria.lojavirtual.repository.AcessoRepository;
 import jdev.mentoria.lojavirtual.service.AcessoService;
 
 @Controller
@@ -19,6 +20,9 @@ public class AcessoController {
 	@Autowired
 	private AcessoService acessoService;
 	
+	@Autowired
+	private AcessoRepository acessoRepository;
+	
 	@ResponseBody /*Poder dar um retorno da API*/
 	@PostMapping(value = "**/salvarAcesso") /*Mapeando a url para receber JSON*/
 	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) { /*Recebe o JSON e converte pra Objeto*/
@@ -26,6 +30,15 @@ public class AcessoController {
 		Acesso acessoSalvo = acessoService.save(acesso);
 		
 		return new ResponseEntity<Acesso> (acessoSalvo, HttpStatus.OK);
+	}
+	
+	@ResponseBody /*Poder dar um retorno da API*/
+	@PostMapping(value = "**/deleteAcesso") /*Mapeando a url para receber JSON*/
+	public ResponseEntity<Acesso> deleteAcesso(@RequestBody Acesso acesso) { /*Recebe o JSON e converte pra Objeto*/
+		
+		acessoRepository.deleteById(acesso.getId());
+		
+		return new ResponseEntity("Acesso Removido",HttpStatus.OK);
 	}
 
 }
