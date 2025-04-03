@@ -66,6 +66,46 @@ public class Usuario implements UserDetails {
 	foreignKey = @ForeignKey(name = "acesso_fk", value = ConstraintMode.CONSTRAINT)))
 	private List<Acesso> acessos;
 	
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public Date getDataAtualSenha() {
+		return dataAtualSenha;
+	}
+
+	public void setDataAtualSenha(Date dataAtualSenha) {
+		this.dataAtualSenha = dataAtualSenha;
+	}
+
+	public List<Acesso> getAcessos() {
+		return acessos;
+	}
+
+	public void setAcessos(List<Acesso> acessos) {
+		this.acessos = acessos;
+	}
 
 	/*Autoridades = São os acesso, ou seja ROLE_ADMIN, ROLE_SECRETARIO, ROLE_FINANCEIRO*/
 	@Override
@@ -106,12 +146,11 @@ public class Usuario implements UserDetails {
 		return true;
 	}
 	
-	@Override
-	public boolean isEnabled() {
+		@Override
+		public boolean isEnabled() {
 
 		/** return UserDetails.super.isEnabled(); **/
 		return true;
 	}
 	
-
 }
