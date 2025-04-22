@@ -67,7 +67,4 @@ public class Acesso implements GrantedAuthority{
 		Acesso other = (Acesso) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-
 }

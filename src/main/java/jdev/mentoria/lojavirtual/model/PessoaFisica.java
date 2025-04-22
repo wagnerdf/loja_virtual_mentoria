@@ -36,9 +36,4 @@ public class PessoaFisica extends Pessoa{
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	
-	
-	
-	
-
 }

@@ -54,6 +54,18 @@ public class ContaReceber implements Serializable {
 	@ManyToOne(targetEntity = Pessoa.class) /**Muitas contas a receber para uma pessoa : * to 1 **/
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk")) 
 	private Pessoa pessoa;
+	
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private Pessoa empresa;
+
+	public Pessoa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Pessoa empresa) {
+		this.empresa = empresa;
+	}
 
 	public Long getId() {
 		return id;
@@ -135,9 +147,4 @@ public class ContaReceber implements Serializable {
 		ContaReceber other = (ContaReceber) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
-	
-
 }

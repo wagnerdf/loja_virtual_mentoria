@@ -1,6 +1,7 @@
 package jdev.mentoria.lojavirtual;
 
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -49,7 +51,7 @@ public class LojaVirtualMentoriaApplicationTests extends TestCase {
 	    
 	    Acesso acesso = new Acesso();
 	    
-	    acesso.setDescricao("ROLE_COMPRADOR");
+	    acesso.setDescricao("ROLE_COMPRADOR" + Calendar.getInstance().getTimeInMillis());
 	    
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    
@@ -108,6 +110,7 @@ public class LojaVirtualMentoriaApplicationTests extends TestCase {
 	
 	
 	@Test
+	@WithMockUser(username = "admin", roles = {"ADMIN"})
 	public void testRestApiDeletePorIDAcesso() throws JsonProcessingException, Exception {
 		
 	    DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
@@ -211,11 +214,13 @@ public class LojaVirtualMentoriaApplicationTests extends TestCase {
 	
 	
 	@Test
-	public void testCadastraAcesso() {
+	public void testCadastraAcesso() throws ExceptionMentoriaJava {
+		
+		String descacesso = "ROLE_ADMIN" + Calendar.getInstance().getTimeInMillis();
 		
 		Acesso acesso = new Acesso();
 		
-		acesso.setDescricao("ROLE_ADMIN");
+		acesso.setDescricao(descacesso);
 		
 		assertEquals(true, acesso.getId() == null);
 
@@ -226,7 +231,7 @@ public class LojaVirtualMentoriaApplicationTests extends TestCase {
 		assertEquals(true, acesso.getId() > 0);
 		
 		/*Validar dados salvos da forma correta*/
-		assertEquals("ROLE_ADMIN", acesso.getDescricao());
+		assertEquals(descacesso, acesso.getDescricao());
 		
 		/*Teste de carregamento*/
 		
