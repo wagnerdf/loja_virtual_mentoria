@@ -49,6 +49,14 @@ public class Usuario implements UserDetails {
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
 	
+	public Pessoa getEmpresa() {
+		return empresa;
+	}
+	
+	public void setEmpresa(Pessoa empresa) {
+		this.empresa = empresa;
+	}
+	
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private Pessoa empresa;
@@ -62,15 +70,6 @@ public class Usuario implements UserDetails {
 	foreignKey = @ForeignKey(name = "acesso_fk", value = ConstraintMode.CONSTRAINT)))
 	private List<Acesso> acessos;
 	
-	
-	public Pessoa getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(Pessoa empresa) {
-		this.empresa = empresa;
-	}
-
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
 	}
