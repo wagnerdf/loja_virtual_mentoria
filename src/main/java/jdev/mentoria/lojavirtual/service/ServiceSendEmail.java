@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class ServiceSendEmail {
 	
 	private String userName = "galerada7m@gmail.com";
-	private String senha = "vqjs gtmh bzdv gime";
+	private String senha = "***************";
 	
 	@Async
 	public void enviarEmailHtml(String assunto, String menssagem, String emailDestino) throws UnsupportedEncodingException, MessagingException {
@@ -54,7 +54,7 @@ public class ServiceSendEmail {
 		message.setFrom(new InternetAddress(userName, "WAGNER - GALERA DA 7", "UTF-8"));
 		message.setRecipients(Message.RecipientType.TO, toUser);
 		message.setSubject(assunto);
-		message.setText(menssagem);
+		message.setContent(menssagem, "text/html; charset=utf-8");
 		
 		Transport.send(message);
 	}
