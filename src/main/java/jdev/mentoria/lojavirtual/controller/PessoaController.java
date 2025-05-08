@@ -30,40 +30,47 @@ public class PessoaController {
 	@PostMapping(value = "**/salvarPj")
 	public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody PessoaJuridica pessoaJuridica) throws ExceptionMentoriaJava{
 		
-		if (pessoaJuridica == null) {
-			throw new ExceptionMentoriaJava("Pessoa juridica nao pode ser NULL");
-		}
-		
-		if (pessoaJuridica.getId() == null && pesssoaRepository.existeCnpjCadastrado(pessoaJuridica.getCnpj()) != null) {
-			throw new ExceptionMentoriaJava("Já existe CNPJ cadastrado com o número: " + pessoaJuridica.getCnpj());
-		}
-		
-		if (pessoaJuridica.getId() == null && pesssoaRepository.existeInsEstadualCadastrado(pessoaJuridica.getInscEstadual()) != null) {
-			throw new ExceptionMentoriaJava("Já existe Inscrição estadual cadastrado com o número: " + pessoaJuridica.getInscEstadual());
-		}
-		
-		
-		if (!ValidaCNPJ.isCNPJ(pessoaJuridica.getCnpj())) {
-			throw new ExceptionMentoriaJava("Cnpj : " + pessoaJuridica.getCnpj() + " está inválido.");
-		}
-		
-		pessoaJuridica = pessoaUserService.salvarPessoaJuridica(pessoaJuridica);
-		
-		return new ResponseEntity<PessoaJuridica>(pessoaJuridica, HttpStatus.OK);
+		/*if (pessoaJuridica.getNome() == null || pessoaJuridica.getNome().trim().isEmpty()) {
+		throw new ExceptionMentoriaJava("Informe o campo de nome");
+	}*/
+	
+	
+	if (pessoaJuridica == null) {
+		throw new ExceptionMentoriaJava("Pessoa juridica nao pode ser NULL");
 	}
 	
+	if (pessoaJuridica.getId() == null && pesssoaRepository.existeCnpjCadastrado(pessoaJuridica.getCnpj()) != null) {
+		throw new ExceptionMentoriaJava("Já existe CNPJ cadastrado com o número: " + pessoaJuridica.getCnpj());
+	}
+	
+	
+	if (pessoaJuridica.getId() == null && pesssoaRepository.existeInsEstadualCadastrado(pessoaJuridica.getInscEstadual()) != null) {
+		throw new ExceptionMentoriaJava("Já existe Inscrição estadual cadastrado com o número: " + pessoaJuridica.getInscEstadual());
+	}
+	
+	
+	if (!ValidaCNPJ.isCNPJ(pessoaJuridica.getCnpj())) {
+		throw new ExceptionMentoriaJava("Cnpj : " + pessoaJuridica.getCnpj() + " está inválido.");
+	}
+	
+	pessoaJuridica = pessoaUserService.salvarPessoaJuridica(pessoaJuridica);
+	
+	return new ResponseEntity<PessoaJuridica>(pessoaJuridica, HttpStatus.OK);
+}
+
 	/*end-point é microsservicos é um API*/
 	@ResponseBody
 	@PostMapping(value = "**/salvarPf")
 	public ResponseEntity<PessoaFisica> salvarPf(@RequestBody PessoaFisica pessoaFisica) throws ExceptionMentoriaJava{
 		
 		if (pessoaFisica == null) {
-			throw new ExceptionMentoriaJava("Pessoa fisica nao pode ser NULL");
+			throw new ExceptionMentoriaJava("Pessoa fisica não pode ser NULL");
 		}
 		
 		if (pessoaFisica.getId() == null && pesssoaRepository.existeCpfCadastrado(pessoaFisica.getCpf()) != null) {
 			throw new ExceptionMentoriaJava("Já existe CPF cadastrado com o número: " + pessoaFisica.getCpf());
 		}
+		
 		
 		if (!ValidaCPF.isCPF(pessoaFisica.getCpf())) {
 			throw new ExceptionMentoriaJava("CPF : " + pessoaFisica.getCpf() + " está inválido.");
@@ -73,7 +80,4 @@ public class PessoaController {
 		
 		return new ResponseEntity<PessoaFisica>(pessoaFisica, HttpStatus.OK);
 	}
-
-
 }
-
