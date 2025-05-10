@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jdev.mentoria.lojavirtual.ExceptionMentoriaJava;
 import jdev.mentoria.lojavirtual.model.PessoaFisica;
 import jdev.mentoria.lojavirtual.model.PessoaJuridica;
+import jdev.mentoria.lojavirtual.model.dto.CepDTO;
 import jdev.mentoria.lojavirtual.repository.PessoaRepository;
 import jdev.mentoria.lojavirtual.service.PessoaUserService;
 import jdev.mentoria.lojavirtual.util.ValidaCNPJ;
@@ -27,6 +30,16 @@ public class PessoaController {
 
 	@Autowired
 	private PessoaUserService pessoaUserService;
+	
+	@ResponseBody
+	@GetMapping(value = "**/consultaCep/{cep}")
+	public ResponseEntity<CepDTO> consultaCep(@PathVariable("cep") String cep){
+		
+		CepDTO cepDTO = pessoaUserService.consultaCep(cep);
+		
+		return new ResponseEntity<CepDTO>(cepDTO, HttpStatus.OK);
+		
+	}
 
 	/* end-point é microsservicos é um API */
 	@ResponseBody
