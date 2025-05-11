@@ -1,9 +1,6 @@
 package jdev.mentoria.lojavirtual.service;
 
-
-
 import java.util.Calendar;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -55,10 +52,9 @@ public class PessoaUserService {
 		
 		if (usuarioPj == null) {
 			
-			List<String> constraints = usuarioRepository.consultaConstraintAcesso();// Alterado para List<String> por compatibilidade com Java 17. Em Java 11 funcionava com String se houvesse só um resultado.
-			if (!constraints.isEmpty()) {
-			    String constraint = constraints.get(0); // ou faça um loop se quiser remover todos
-			    jdbcTemplate.execute("begin; alter table usuarios_acesso drop constraint " + constraint + "; commit;");
+			String constraint = usuarioRepository.consultaConstraintAcesso();
+			if (constraint != null) {
+				jdbcTemplate.execute("begin; alter table usuarios_acesso drop constraint " + constraint +"; commit;");
 			}
 			
 			usuarioPj = new Usuario();
@@ -111,10 +107,9 @@ public class PessoaUserService {
 		
 		if (usuarioPj == null) {
 			
-			List<String> constraints = usuarioRepository.consultaConstraintAcesso();// Alterado para List<String> por compatibilidade com Java 17. Em Java 11 funcionava com String se houvesse só um resultado.
-			if (!constraints.isEmpty()) {
-			    String constraint = constraints.get(0); // ou faça um loop se quiser remover todos
-			    jdbcTemplate.execute("begin; alter table usuarios_acesso drop constraint " + constraint + "; commit;");
+			String constraint = usuarioRepository.consultaConstraintAcesso();
+			if (constraint != null) {
+				jdbcTemplate.execute("begin; alter table usuarios_acesso drop constraint " + constraint +"; commit;");
 			}
 			
 			usuarioPj = new Usuario();
@@ -153,7 +148,6 @@ public class PessoaUserService {
 	public CepDTO consultaCep(String cep) {
 		return new RestTemplate().getForEntity("https://viacep.com.br/ws/" + cep + "/json/", CepDTO.class).getBody();
 	}
-	
 
 
 }

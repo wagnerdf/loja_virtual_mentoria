@@ -29,18 +29,18 @@ public class TestePessoaUsuario extends TestCase {
 	public void testCadPessoaJuridica() throws ExceptionMentoriaJava {
 
 		PessoaJuridica pessoaJuridica = new PessoaJuridica();
-		pessoaJuridica.setCnpj("97.798.835/0001-70");
+		pessoaJuridica.setCnpj("70.540.625/0001-21");
 		pessoaJuridica.setNome("Wagner Andrade");
 		pessoaJuridica.setEmail("wagnerteste210@gmail.com");
 		pessoaJuridica.setTelefone("45999795800");
-		pessoaJuridica.setInscEstadual("65125465656665");
+		pessoaJuridica.setInscEstadual("65124665656665");
 		pessoaJuridica.setinscMunicipal("55554565656565");
 		pessoaJuridica.setNomeFantasia("54556565665");
 		pessoaJuridica.setRazaoSocial("4656656566");
 
 		Endereco endereco1 = new Endereco();
 		endereco1.setBairro("Jd Dias");
-		endereco1.setCep("556556565");
+		endereco1.setCep("72220049");
 		endereco1.setComplemento("Casa cinza");
 		endereco1.setEmpresa(pessoaJuridica);
 		endereco1.setNumero("389");
@@ -52,7 +52,7 @@ public class TestePessoaUsuario extends TestCase {
 
 		Endereco endereco2 = new Endereco();
 		endereco2.setBairro("Jd Maracana");
-		endereco2.setCep("7878778");
+		endereco2.setCep("72225097");
 		endereco2.setComplemento("Andar 4");
 		endereco2.setEmpresa(pessoaJuridica);
 		endereco2.setNumero("555");
@@ -86,7 +86,7 @@ public class TestePessoaUsuario extends TestCase {
 		PessoaJuridica pessoaJuridica = pessoaRepository.existeCnpjCadastrado("1746626026950");
 
 		PessoaFisica pessoaFisica = new PessoaFisica();
-		pessoaFisica.setCpf("225.502.360-17");
+		pessoaFisica.setCpf("225.251.620-80");
 		pessoaFisica.setNome("Wagner Andrade");
 		pessoaFisica.setEmail("wagnerteste13@gmail.com");
 		pessoaFisica.setTelefone("45999795800");
