@@ -116,6 +116,10 @@ public class PessoaController {
 		if (pessoaJuridica == null) {
 			throw new ExceptionMentoriaJava("Pessoa juridica nao pode ser NULL");
 		}
+		
+		if (pessoaJuridica.getTipoPessoa() == null) {
+			throw new ExceptionMentoriaJava("Informe o tipo Jurídico ou Fornecedor da Loja");
+		}
 
 		if (pessoaJuridica.getId() == null
 				&& pesssoaRepository.existeCnpjCadastrado(pessoaJuridica.getCnpj()) != null) {
