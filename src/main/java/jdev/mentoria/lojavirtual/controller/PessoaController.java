@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +23,7 @@ import jdev.mentoria.lojavirtual.model.dto.CepDTO;
 import jdev.mentoria.lojavirtual.repository.EnderecoRepository;
 import jdev.mentoria.lojavirtual.repository.PessoaFisicaRepository;
 import jdev.mentoria.lojavirtual.repository.PessoaRepository;
+import jdev.mentoria.lojavirtual.service.ContagemAcessoApiService;
 import jdev.mentoria.lojavirtual.service.PessoaUserService;
 import jdev.mentoria.lojavirtual.util.ValidaCNPJ;
 import jdev.mentoria.lojavirtual.util.ValidaCPF;
@@ -44,8 +44,7 @@ public class PessoaController {
 	private PessoaFisicaRepository pessoaFisicaRepository;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate; 
-
+	private ContagemAcessoApiService contagemAcessoApiService;
 	
 	@ResponseBody
 	@GetMapping(value = "**/consultaPfNome/{nome}")
@@ -53,10 +52,10 @@ public class PessoaController {
 		
 		List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase());
 		
+		contagemAcessoApiService.atualizaAcessoEndPointPF();
+		
 		return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
 	}
-	
-	
 	
 	@ResponseBody
 	@GetMapping(value = "**/consultaPfCpf/{cpf}")
