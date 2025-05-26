@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -12,7 +13,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Table(name = "pessoa_fisica")
-/* @PrimaryKeyJoinColumn(name = "id") */
+@PrimaryKeyJoinColumn(name = "id")
 public class PessoaFisica extends Pessoa {
 
 	private static final long serialVersionUID = 1L;
