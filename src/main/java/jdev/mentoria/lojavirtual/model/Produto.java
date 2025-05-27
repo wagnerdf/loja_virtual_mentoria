@@ -23,6 +23,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "produto")
 @SequenceGenerator(name = "seq_produto", sequenceName = "seq_produto", allocationSize = 1, initialValue = 1)
@@ -86,6 +88,11 @@ public class Produto implements Serializable{
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
+
+	@NotNull(message = "A Marca do produto deve ser informado")
+	@ManyToOne(targetEntity = MarcaProduto.class)
+	@JoinColumn(name = "marca_produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "marca_produto_id_fk"))
+	private MarcaProduto marcaProduto = new MarcaProduto();
 	
 	public MarcaProduto getMarcaProduto() {
 		return marcaProduto;
@@ -94,13 +101,9 @@ public class Produto implements Serializable{
 	public void setMarcaProduto(MarcaProduto marcaProduto) {
 		this.marcaProduto = marcaProduto;
 	}
-
-	@NotNull(message = "A Marca do produto deve ser informado")
-	@ManyToOne(targetEntity = MarcaProduto.class)
-	@JoinColumn(name = "marca_produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "marca_produto_id_fk"))
-	private MarcaProduto marcaProduto = new MarcaProduto();
 	
 	@OneToMany(mappedBy = "produto", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonManagedReference
 	private List<ImagemProduto> imagens = new ArrayList<ImagemProduto>();
 	
 	public void setImagens(List<ImagemProduto> imagens) {

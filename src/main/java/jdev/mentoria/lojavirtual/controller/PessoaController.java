@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,56 +37,53 @@ public class PessoaController {
 
 	@Autowired
 	private PessoaUserService pessoaUserService;
-	
+
 	@Autowired
 	private EnderecoRepository enderecoRepository;
-	
+
 	@Autowired
-	private PessoaFisicaRepository pessoaFisicaRepository;
-	
+	private PessoaFisicaRepository pesssoaFisicaRepository;
+
 	@Autowired
 	private ContagemAcessoApiService contagemAcessoApiService;
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/consultaPfNome/{nome}")
 	public ResponseEntity<List<PessoaFisica>> consultaPfNome(@PathVariable("nome") String nome) {
-		
-		List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase());
-		
+
+		List<PessoaFisica> fisicas = pesssoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase());
+
 		contagemAcessoApiService.atualizaAcessoEndPointPF();
-		
+
 		return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/consultaPfCpf/{cpf}")
 	public ResponseEntity<List<PessoaFisica>> consultaPfCpf(@PathVariable("cpf") String cpf) {
-		
-		List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorCpfPF(cpf);
-		
+
+		List<PessoaFisica> fisicas = pesssoaFisicaRepository.pesquisaPorCpfPF(cpf);
+
 		return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
 	}
-	
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/consultaNomePJ/{nome}")
 	public ResponseEntity<List<PessoaJuridica>> consultaNomePJ(@PathVariable("nome") String nome) {
-		
+
 		List<PessoaJuridica> fisicas = pesssoaRepository.pesquisaPorNomePJ(nome.trim().toUpperCase());
-		
-		return new ResponseEntity<List<PessoaJuridica>>(fisicas, HttpStatus.OK);
-	}
-	
-	
-	@ResponseBody
-	@GetMapping(value = "**/consultaCnpjPJ/{cnpj}")
-	public ResponseEntity<List<PessoaJuridica>> consultaCnpjPJ(@PathVariable("cnpj") String cnpj) {
-		
-		List<PessoaJuridica> fisicas = pesssoaRepository.existeCnpjCadastradoList(cnpj.trim().toUpperCase());
-		
+
 		return new ResponseEntity<List<PessoaJuridica>>(fisicas, HttpStatus.OK);
 	}
 
+	@ResponseBody
+	@GetMapping(value = "**/consultaCnpjPJ/{cnpj}")
+	public ResponseEntity<List<PessoaJuridica>> consultaCnpjPJ(@PathVariable("cnpj") String cnpj) {
+
+		List<PessoaJuridica> fisicas = pesssoaRepository.existeCnpjCadastradoList(cnpj.trim().toUpperCase());
+
+		return new ResponseEntity<List<PessoaJuridica>>(fisicas, HttpStatus.OK);
+	}
 
 	@ResponseBody
 	@GetMapping(value = "**/consultaCep/{cep}")
@@ -96,20 +92,20 @@ public class PessoaController {
 		return new ResponseEntity<CepDTO>(pessoaUserService.consultaCep(cep), HttpStatus.OK);
 
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/consultaCnpjReceitaWs/{cnpj}")
-	public ResponseEntity<ConsultaCnpjDto> consultaCnpjReceitaWs(@PathVariable("cnpj") String cnpj){
-		
+	public ResponseEntity<ConsultaCnpjDto> consultaCnpjReceitaWs(@PathVariable("cnpj") String cnpj) {
+
 		return new ResponseEntity<ConsultaCnpjDto>(pessoaUserService.consultaCnpjReceitaWS(cnpj), HttpStatus.OK);
-		
+
 	}
 
 	/* end-point é microsservicos é um API */
 	@ResponseBody
 	@PostMapping(value = "**/salvarPj")
-	public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody @Valid PessoaJuridica pessoaJuridica,
-			BindingResult bindingResult) throws ExceptionMentoriaJava {
+	public ResponseEntity<PessoaJuridica> salvarPj(@RequestBody @Valid PessoaJuridica pessoaJuridica)
+			throws ExceptionMentoriaJava {
 
 		/*
 		 * if (pessoaJuridica.getNome() == null ||
@@ -117,16 +113,10 @@ public class PessoaController {
 		 * ExceptionMentoriaJava("Informe o campo de nome"); }
 		 */
 
-		if (bindingResult.hasErrors()) {
-			// Retorna apenas a primeira mensagem de erro encontrada
-			String erro = bindingResult.getFieldErrors().get(0).getDefaultMessage();
-			throw new ExceptionMentoriaJava(erro);
-		}
-
 		if (pessoaJuridica == null) {
 			throw new ExceptionMentoriaJava("Pessoa juridica nao pode ser NULL");
 		}
-		
+
 		if (pessoaJuridica.getTipoPessoa() == null) {
 			throw new ExceptionMentoriaJava("Informe o tipo Jurídico ou Fornecedor da Loja");
 		}
@@ -176,7 +166,6 @@ public class PessoaController {
 					pessoaJuridica.getEnderecos().get(p).setUf(cepDTO.getUf());
 				}
 			}
-
 		}
 
 		pessoaJuridica = pessoaUserService.salvarPessoaJuridica(pessoaJuridica);
@@ -187,19 +176,12 @@ public class PessoaController {
 	/* end-point é microsservicos é um API */
 	@ResponseBody
 	@PostMapping(value = "**/salvarPf")
-	public ResponseEntity<PessoaFisica> salvarPf(@RequestBody PessoaFisica pessoaFisica, BindingResult bindingResult)
-			throws ExceptionMentoriaJava {
-
-		if (bindingResult.hasErrors()) {
-			// Retorna apenas a primeira mensagem de erro encontrada
-			String erro = bindingResult.getFieldErrors().get(0).getDefaultMessage();
-			throw new ExceptionMentoriaJava(erro);
-		}
+	public ResponseEntity<PessoaFisica> salvarPf(@RequestBody PessoaFisica pessoaFisica) throws ExceptionMentoriaJava {
 
 		if (pessoaFisica == null) {
 			throw new ExceptionMentoriaJava("Pessoa fisica não pode ser NULL");
 		}
-		
+
 		if (pessoaFisica.getTipoPessoa() == null) {
 			pessoaFisica.setTipoPessoa(TipoPessoa.FISICA.name());
 		}
@@ -216,4 +198,5 @@ public class PessoaController {
 
 		return new ResponseEntity<PessoaFisica>(pessoaFisica, HttpStatus.OK);
 	}
+
 }
