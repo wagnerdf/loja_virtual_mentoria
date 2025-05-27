@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 
 import jdev.mentoria.lojavirtual.controller.PessoaController;
 import jdev.mentoria.lojavirtual.enums.TipoEndereco;
@@ -65,11 +63,7 @@ public class TestePessoaUsuario extends TestCase {
 		pessoaJuridica.getEnderecos().add(endereco2);
 		pessoaJuridica.getEnderecos().add(endereco1);
 
-		// ✅ BindingResult válido
-		BindingResult bindingResult = new BeanPropertyBindingResult(pessoaJuridica, "pessoaJuridica");
-
-		// Chamada com validação funcionando
-		pessoaJuridica = pessoaController.salvarPj(pessoaJuridica, bindingResult).getBody();
+		pessoaJuridica = pessoaController.salvarPj(pessoaJuridica).getBody();
 
 		assertEquals(true, pessoaJuridica.getId() > 0);
 
@@ -119,11 +113,7 @@ public class TestePessoaUsuario extends TestCase {
 		pessoaFisica.getEnderecos().add(endereco2);
 		pessoaFisica.getEnderecos().add(endereco1);
 
-		// ✅ BindingResult válido
-		BindingResult bindingResult = new BeanPropertyBindingResult(pessoaFisica, "pessoaFisica");
-
-		// Chamada com validação funcionando
-		pessoaFisica = pessoaController.salvarPf(pessoaFisica, bindingResult).getBody();
+		pessoaFisica = pessoaController.salvarPf(pessoaFisica).getBody();
 
 		assertEquals(true, pessoaFisica.getId() > 0);
 
