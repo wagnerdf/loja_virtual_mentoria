@@ -17,7 +17,7 @@ public class VendaService {
 		      			+ " UPDATE nota_fiscal_venda SET venda_compra_loja_virtual_id = null WHERE venda_compra_loja_virtual_id = "+idVenda+"; "
 		      			+ " DELETE FROM nota_fiscal_venda WHERE venda_compra_loja_virtual_id = "+idVenda+"; "
 		      			+ " DELETE FROM item_venda_loja WHERE venda_compra_loja_virtual_id = "+idVenda+"; "
-		      			+ " DELETE FROM status_rastreio WHERE venda_compora_loja_virt_id = "+idVenda+"; "
+		      			+ " DELETE FROM status_rastreio WHERE venda_compra_loja_virt_id = "+idVenda+"; "
 		      			+ " DELETE FROM vd_cp_loja_virt WHERE id = "+idVenda+"; "
 		      			+ " COMMIT; ";
 		
