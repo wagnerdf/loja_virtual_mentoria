@@ -103,6 +103,7 @@ public class VendaCompraLojaVirtual implements Serializable{
 	private List<ItemVendaLoja> itemVendaLojas = new ArrayList<ItemVendaLoja>();
 	
 	
+	
 	public void setItemVendaLojas(List<ItemVendaLoja> itemVendaLojas) {
 		this.itemVendaLojas = itemVendaLojas;
 	}
